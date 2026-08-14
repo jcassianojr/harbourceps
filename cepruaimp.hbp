@@ -1,0 +1,22 @@
+#-manifest=cepruaimp.Manifest  comentado erro compilacao 32 bits
+-lng=pt_BR
+-vcshead=vcshead.ch
+-tshead=tshead.ch
+-m -n -w0 -es2 -ge1
+
+hbct.hbc
+#hbwin.hbc
+#hbtip.hbc
+xhb.hbc
+#hbmisc.hbc
+gtwvg.hbc
+ 
+cepruaimp.PRG   
+d:\develop\harbour\diversos\objmgw\cepsutil.prg
+d:\develop\harbour\diversos\objmgw\comp.prg
+d:\develop\harbour\diversos\objmgw\disk53.prg
+d:\develop\harbour\diversos\objmgw\disk55.prg
+d:\develop\harbour\diversos\objmgw\f_freadl.prg
+#vendo com o novo hb_error
+#d:\develop\harbour\diversos\objmgw\error.prg
+d:\develop\harbour\diversos\objmgw\xhberr_mode.prg

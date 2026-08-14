@@ -1,0 +1,31 @@
+#-manifest=convcep.Manifest  comentado erro compilacao 32 bits
+-lng=pt_BR
+-vcshead=vcshead.ch
+-tshead=tshead.ch
+-m -n -w0 -es2 -ge1
+
+hbct.hbc
+hbwin.hbc
+hbtip.hbc
+xhb.hbc
+hbmisc.hbc
+gtwvg.hbc
+ 
+convcep.PRG   -b
+\develop\harbour\diversos\objmgw\cepsutil.prg
+\develop\harbour\diversos\objmgw\comp.prg
+\develop\harbour\diversos\objmgw\netdbf.prg
+\develop\harbour\diversos\objmgw\disk53.prg
+\develop\harbour\diversos\objmgw\disk55.prg
+\develop\harbour\diversos\objmgw\disk56.prg
+\develop\harbour\diversos\objmgw\disk64.prg
+\develop\harbour\diversos\objmgw\disk66.prg
+\develop\harbour\diversos\objmgw\f_freadl.prg
+\develop\harbour\diversos\objmgw\mlib06.prg
+\develop\harbour\diversos\objmgw\mlib16.prg
+
+#vendo com o novo hb_error
+#\develop\harbour\diversos\objmgw\error.prg
+\develop\harbour\diversos\objmgw\xhberr_mode.prg
+
+\develop\harbour\diversos\objmgw\wvgini.prg

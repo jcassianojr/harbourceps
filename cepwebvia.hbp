@@ -1,0 +1,21 @@
+-incpath=d:\develop\harbour\sefazclass\include\
+
+#-manifest=cepwebvia.Manifest  comentado erro compilacao 32 bits
+-lng=pt_BR
+-vcshead=vcshead.ch
+-tshead=tshead.ch
+
+cepwebvia.prg -b
+
+d:\develop\harbour\sefazclass\ze_xmlfunc.prg
+
+#vendo com o novo hb_error
+#d:\develop\harbour\diversos\objmgw\error.prg
+d:\develop\harbour\diversos\objmgw\xhberr_mode.prg
+
+d:\develop\harbour\diversos\objmgw\comp.prg
+d:\develop\harbour\diversos\objmgw\disk55.prg
+
+hbtip.hbc
+xhb.hbc
+gtwvg.hbc
