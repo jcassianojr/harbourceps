@@ -1,7 +1,9 @@
-# 🗄️ Dicionario de Estruturas de Dados do Projeto
-> Varredura automatica realizada em: 05/12/26
+# Dicionario de Estruturas de Dados do Projeto
+> Varredura automatica realizada em: 13/10/2026
 
-## 📋 Tabela DBF: `cepgeo.dbf`
+## Tabela DBF: `c:\develop\harbour\ceps\cepgeo.dbf`
+> **Origem:** `c:\develop\harbour\ceps\cepgeo.dbf` (Driver: DBFCDX)
+
 | Campo | Tipo | Tam | Dec |
 | :--- | :--- | :--- | :--- |
 | CEP | C | 8 | 0 |
@@ -11,7 +13,9 @@
 | HEMISFERIO | C | 1 | 0 |
 
 ---
-## 📋 Tabela DBF: `ceprua.dbf`
+## Tabela DBF: `c:\develop\harbour\ceps\ceprua.dbf`
+> **Origem:** `c:\develop\harbour\ceps\ceprua.dbf` (Driver: DBFCDX)
+
 | Campo | Tipo | Tam | Dec |
 | :--- | :--- | :--- | :--- |
 | RUA | C | 70 | 0 |
@@ -24,7 +28,9 @@
 | TITULO | C | 1 | 0 |
 
 ---
-## 📋 Tabela DBF: `cepruaerr.dbf`
+## Tabela DBF: `c:\develop\harbour\ceps\cepruaerr.dbf`
+> **Origem:** `c:\develop\harbour\ceps\cepruaerr.dbf` (Driver: DBFCDX)
+
 | Campo | Tipo | Tam | Dec |
 | :--- | :--- | :--- | :--- |
 | CEP | C | 8 | 0 |
@@ -46,7 +52,9 @@
 | HEMISFERIO | C | 1 | 0 |
 
 ---
-## 📋 Tabela DBF: `cepruaimp.dbf`
+## Tabela DBF: `c:\develop\harbour\ceps\cepruaimp.dbf`
+> **Origem:** `c:\develop\harbour\ceps\cepruaimp.dbf` (Driver: DBFCDX)
+
 | Campo | Tipo | Tam | Dec |
 | :--- | :--- | :--- | :--- |
 | CEP | C | 8 | 0 |
@@ -67,8 +75,13 @@
 | LONGITUDE | C | 8 | 0 |
 | HEMISFERIO | C | 1 | 0 |
 
+**Indices vinculados:**
+- Tag: `CEP` Expressao: `CEP`
+
 ---
-## 📋 Tabela DBF: `ce_f.dbf`
+## Tabela DBF: `c:\develop\harbour\ceps\ce_f.dbf`
+> **Origem:** `c:\develop\harbour\ceps\ce_f.dbf` (Driver: DBFCDX)
+
 | Campo | Tipo | Tam | Dec |
 | :--- | :--- | :--- | :--- |
 | UF | C | 2 | 0 |
@@ -88,7 +101,9 @@
 | CNLARLOCA | C | 4 | 0 |
 
 ---
-## 📋 Tabela DBF: `md10imp.dbf`
+## Tabela DBF: `c:\develop\harbour\ceps\md10imp.dbf`
+> **Origem:** `c:\develop\harbour\ceps\md10imp.dbf` (Driver: DBFCDX)
+
 | Campo | Tipo | Tam | Dec |
 | :--- | :--- | :--- | :--- |
 | UF | C | 2 | 0 |

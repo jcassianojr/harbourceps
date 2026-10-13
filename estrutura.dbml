@@ -1,0 +1,118 @@
+// Origem: c:\develop\harbour\ceps\cepgeo.dbf (DBF)
+Table "cepgeo" {
+  Note: "Origem: c:\develop\harbour\ceps\cepgeo.dbf"
+  "CEP" VARCHAR(8)
+  "DDD" VARCHAR(2)
+  "LATITUDE" VARCHAR(8)
+  "LONGITUDE" VARCHAR(8)
+  "HEMISFERIO" VARCHAR(1)
+}
+
+// Origem: c:\develop\harbour\ceps\ceprua.dbf (DBF)
+Table "ceprua" {
+  Note: "Origem: c:\develop\harbour\ceps\ceprua.dbf"
+  "RUA" VARCHAR(70)
+  "CEP" VARCHAR(8)
+  "TIPO" VARCHAR(10)
+  "CHVBAI" INTEGER [default: 0]
+  "NINI" INTEGER [default: 0]
+  "NFIM" INTEGER [default: 0]
+  "PARID" VARCHAR(1)
+  "TITULO" VARCHAR(1)
+}
+
+// Origem: c:\develop\harbour\ceps\cepruaerr.dbf (DBF)
+Table "cepruaerr" {
+  Note: "Origem: c:\develop\harbour\ceps\cepruaerr.dbf"
+  "CEP" VARCHAR(8)
+  "TIPO" VARCHAR(20)
+  "RUA" VARCHAR(201)
+  "BAIRRO" VARCHAR(70)
+  "UF" VARCHAR(2)
+  "CIDADE" VARCHAR(100)
+  "CODIBGE" VARCHAR(7)
+  "OBS" VARCHAR(100)
+  "CHVBAI" INTEGER [default: 0]
+  "NINI" INTEGER [default: 0]
+  "NFIM" INTEGER [default: 0]
+  "PARID" VARCHAR(1)
+  "TITULO" VARCHAR(1)
+  "DDD" VARCHAR(2)
+  "LATITUDE" VARCHAR(8)
+  "LONGITUDE" VARCHAR(8)
+  "HEMISFERIO" VARCHAR(1)
+}
+
+// Origem: c:\develop\harbour\ceps\cepruaimp.dbf (DBF)
+Table "cepruaimp" {
+  Note: "Origem: c:\develop\harbour\ceps\cepruaimp.dbf"
+  "CEP" VARCHAR(8)
+  "TIPO" VARCHAR(20)
+  "RUA" VARCHAR(201)
+  "BAIRRO" VARCHAR(70)
+  "UF" VARCHAR(2)
+  "CIDADE" VARCHAR(100)
+  "CODIBGE" VARCHAR(7)
+  "OBS" VARCHAR(100)
+  "CHVBAI" INTEGER [default: 0]
+  "NINI" INTEGER [default: 0]
+  "NFIM" INTEGER [default: 0]
+  "PARID" VARCHAR(1)
+  "TITULO" VARCHAR(1)
+  "DDD" VARCHAR(2)
+  "LATITUDE" VARCHAR(8)
+  "LONGITUDE" VARCHAR(8)
+  "HEMISFERIO" VARCHAR(1)
+  Indexes {
+    CEP [name: "CEP"]
+  }
+}
+
+// Origem: c:\develop\harbour\ceps\ce_f.dbf (DBF)
+Table "ce_f" {
+  Note: "Origem: c:\develop\harbour\ceps\ce_f.dbf"
+  "UF" VARCHAR(2)
+  "NOMETEL" VARCHAR(4)
+  "CODTEL" VARCHAR(5)
+  "LOCALIDADE" VARCHAR(50)
+  "NOME" VARCHAR(50)
+  "DDD" VARCHAR(2)
+  "CODARTAR" VARCHAR(3)
+  "PREFIXO" VARCHAR(7)
+  "PRESTADORA" VARCHAR(30)
+  "FXINI" VARCHAR(4)
+  "FXFIM" VARCHAR(4)
+  "LATITUDE" VARCHAR(8)
+  "HEMISFERIO" VARCHAR(5)
+  "LONGITUDE" VARCHAR(8)
+  "CNLARLOCA" VARCHAR(4)
+}
+
+// Origem: c:\develop\harbour\ceps\md10imp.dbf (DBF)
+Table "md10imp" {
+  Note: "Origem: c:\develop\harbour\ceps\md10imp.dbf"
+  "UF" VARCHAR(2)
+  "NOME" VARCHAR(35)
+  "DDD" VARCHAR(2)
+  "CODIRRF" VARCHAR(5)
+  "CODIBGE" VARCHAR(7)
+  "CODBACEN" VARCHAR(5)
+  "ZONAELE" INTEGER [default: 0]
+  "CODTEL" VARCHAR(5)
+  "NOMTEL" VARCHAR(4)
+  "INICEP" VARCHAR(8)
+  "FIMCEP" VARCHAR(8)
+  "INICEP2" VARCHAR(8)
+  "FIMCEP2" VARCHAR(8)
+  "ALTITUDE" INTEGER [default: 0]
+  "AREA" DECIMAL(12,3) [default: 0]
+  "LATITUDE" VARCHAR(8)
+  "LONGITUDE" VARCHAR(8)
+  "HEMISFERIO" VARCHAR(1)
+  "LOGIX" VARCHAR(5)
+  "CODSIAFI" VARCHAR(4)
+  "CENTROI" VARCHAR(50)
+  "CAPITAL" VARCHAR(1)
+  "FUSOHOR" VARCHAR(50)
+}
+
