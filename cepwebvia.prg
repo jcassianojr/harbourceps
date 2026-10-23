@@ -18,40 +18,12 @@
 *+
 *+
 *+
-*+    Documentado em 13-Out-2026 as  6:42 pm
+*+    Documentado em 23-Out-2026 as  8:30 am
 *+
 *+
 *+
 *+--------------------------------------------------------------------
 *+
-
-// +--------------------------------------------------------------------
-// +
-// +
-// +
-// +    Programa  : cepwebvia.prg
-// +
-// +
-// +
-// +     Sistema:
-// +
-// +     Linguagem: Harbour
-// +
-// +     Autor: jcassiano
-// +
-// +     Copyright (c) 2024,  jcassiano
-// +
-// +
-// +
-// +
-// +
-// +    Documentado em 27-Dez-2024 as  9:21 pm
-// +
-// +
-// +
-// +--------------------------------------------------------------------
-// +
-
 
 /*  Msxml2.XMLHTTP.6.0 Msxml2.XMLHTTP.3.0
 1. Microsoft XML, v 3.0.
@@ -94,7 +66,8 @@ REQUEST DBFCDX
 FUNCTION Main()
 
 
-PRIVATE cCep,cBairro,cCidade,cEndereco,cUF,cID
+
+PRIVATE cCep,cBairro,cCidade,cEndereco,cUF,cID,lUSAMSXML,cIBGE,cComplemento,cTIPORUA,cDDD,cLATITUDE,cLONGITUDE
 
 Set(_SET_CODEPAGE,"PTISO")
 SetMode(25,80)
@@ -132,6 +105,9 @@ lBrasilAPI    := MSGYESNO("Usar BrasilAPI")
 
 lGERACEPTXT := MSGYESNO("Gerar ceps.csv")
 lGERACEPRUA := MSGYESNO("Gerar cepruaimp.csv ")
+
+// No início da sua FUNCTION Main()
+lUSAMSXML := MSGYESNO("Usar motor MSXML2 (Sim) ou TIpClient (Nao)?")
 
 
 IF lGERACEPTXT
@@ -353,6 +329,7 @@ dbCloseAll()
 FUNCTION FormataCEP(eCEP)
 
 
+
 IF ValType(eCEP) = "N"
    eCEP := StrZero(eCEP,8)
 ENDIF
@@ -377,6 +354,7 @@ RETURN eCEP
 // +
 // +
 FUNCTION GRAVARUANAO(cMENSAGEM)
+
 
 
 ? cMENSAGEM
@@ -407,6 +385,7 @@ RETURN .T.
 // +
 // +
 FUNCTION GRAVARUAIMP()
+
 
 
 IF cENDERECO = "ull,"   // alguns web service trazem null
@@ -470,18 +449,17 @@ RETURN .T.
 PROCEDURE CepRepublica(xCep)
 
 
-LOCAL oHttp,cXML
+
+LOCAL cURL,cXML
 LOCAL xRes,xResTxt,xUf,xCidade,xTipo,xEnde,xBairro,xRetorno := {}
 
-xCep  := StrTran(xCep,"-")
-oHttp := TIpClientHttp():new("http://cep.republicavirtual.com.br/web_cep.php?cep="+xCep+"&formato=xml")
-IF !oHttp:open()
+xCep := StrTran(xCep,"-")
+cURL := "http://cep.republicavirtual.com.br/web_cep.php?cep="+xCep+"&formato=xml"
+cXML := RequisicaoHTTP(cURL,lUSAMSXML)
+
+IF Empty(cXML)
    RETURN .F.
 ENDIF
-Inkey(.5)
-
-cXML := oHttp:readAll()
-oHttp:close()
 
 cXML := XmlTransform(cXML)
 
@@ -512,6 +490,7 @@ RETURN .T.
 FUNCTION AppVersaoExe()
 
 
+
 RETURN ""
 
 // +--------------------------------------------------------------------
@@ -527,6 +506,7 @@ RETURN ""
 // +
 // +
 FUNCTION AppUserName()
+
 
 
 RETURN ""
@@ -547,25 +527,21 @@ RETURN ""
 // +
 FUNCTION CEPapicEp(cCEP)
 
+LOCAL cURL,cXML
 
-TRY
-   // https://cdn.apicep.com/file/apicep/06233-030.json //api necessita traco usado formatacep abaico
-   cURL := "https://cdn.apicep.com/file/apicep/"+formatacep(cCEP)+".json"
-   oPg  := CreateObject("Msxml2.XMLHTTP.6.0")   // oPg  := CreateObject("Msxml2.XMLHTTP.3.0") atualizado para versao 6
-   oPg:Open("GET",cUrl,.F.)
-   oPg:Send()
-   cXMl := oPg:ResponseBody
-   // {"code":"06233-030","state":"SP","city":"Osasco","district":"Piratininga","address":"Rua Paula Rodrigues","status":200,"ok":true,"statusText":"ok"}
-   cXMl := XmlTransform(cXMl)
+// {"code":"06233-030","state":"SP","city":"Osasco","district":"Piratininga","address":"Rua Paula Rodrigues","status":200,"ok":true,"statusText":"ok"}
 
+cURL := "https://cdn.apicep.com/file/apicep/"+formatacep(cCEP)+".json"
+cXMl := RequisicaoHTTP(cURL,lUSAMSXML)
 
-   CUF       := pegnodojason(cXMl,'state":')
-   cCIDADE   := pegnodojason(cXMl,'city":')
-   cBairro   := pegnodojason(cXMl,'district":')
-   cENDERECO := pegnodojason(cXMl,'address":')
-catch oEr
-   // mdt("Erro de conexão na API send")
-end
+IF Empty(cXMl)
+   RETURN .F.
+ENDIF
+
+CUF       := pegnodojason(cXMl,'state":')
+cCIDADE   := pegnodojason(cXMl,'city":')
+cBairro   := pegnodojason(cXMl,'district":')
+cENDERECO := pegnodojason(cXMl,'address":')
 RETURN .T.
 
 
@@ -583,21 +559,18 @@ RETURN .T.
 // +
 FUNCTION cepapiawe(cCEP)
 
+LOCAL cURL,cXML
 
 // https://cep.awesomeapi.com.br/json/05424020
 // https://cep.awesomeapi.com.br/xml/05424020
 // https://cep.awesomeapi.com.br/05424020
 
-TRY
-   cURL := "https://cep.awesomeapi.com.br/json/"+cCEP
-   oPg  := CreateObject("Msxml2.XMLHTTP.6.0")   // oPg  := CreateObject("Msxml2.XMLHTTP.3.0") atualizado para versao 6
-   oPg:Open("GET",cUrl,.F.)
-   oPg:Send()
-   cXMl := oPg:ResponseBody
-catch oEr
-   // mdt("Erro de conexão na API send")
+cURL := "https://cep.awesomeapi.com.br/json/"+cCEP
+cXMl := RequisicaoHTTP(cURL,lUSAMSXML)
+
+IF Empty(cXMl)
    RETURN .F.
-end
+ENDIF
 
 
 cXMl := XmlTransform(cXMl)
@@ -640,6 +613,7 @@ RETURN .T.
 FUNCTION pegnodojason(cTEXTO,cNODO)
 
 
+
 cTEXTO := SubStr(cTEXTO,At(cNODO,cTEXTO)+Len(cNODO)+1)
 CTEXTO := SubStr(cTEXTO,1,At('"',cTEXTO) - 1)
 // ALERT(cTEXTO)
@@ -668,6 +642,7 @@ RETURN cTEXTO
 // +
 // +
 FUNCTION cepWeb(cCEP)
+
 
 
 LOCAL oCEP := ViaCEP():New(cCEP)
@@ -715,6 +690,31 @@ ENDCLASS
 *+
 *+
 *+
+*+
+*+
+*+
+*+
+*+    Method New()
+*+
+*+
+*+
+*+
+*+
+*+
+*+
+*+--------------------------------------------------------------------
+*+
+*+
+*+
+*+
+*+
+*+
+*+
+
+*+--------------------------------------------------------------------
+*+
+*+
+*+
 *+    Method New()
 *+
 *+
@@ -725,6 +725,7 @@ ENDCLASS
 *+
 METHOD New(cCEP)
 
+LOCAL cURL,cHtml,aHtml
 
 IF nERRO > 10
    ? 'Open erro >10'
@@ -732,17 +733,15 @@ IF nERRO > 10
    RETURN NIL
 ENDIF
 
-oHttp := TIPClientHTTP():new("http://viacep.com.br/ws/"+cCEP+"/piped/")
+cURL  := "http://viacep.com.br/ws/"+cCEP+"/piped/"
+cHtml := RequisicaoHTTP(cURL,lUSAMSXML)
 
-IF !oHttp:open()
-   ? 'open erro'
+IF Empty(cHtml)
+   ? 'erro de requisicao'
    ?
    nERRO ++
    RETURN NIL
 ENDIF
-
-cHtml := oHttp:readAll()
-oHttp:close()
 
 IF Empty(cHtml)
    RETURN NIL
@@ -791,6 +790,7 @@ RETURN Self
 // +
 FUNCTION CEPBrasilAberto(cCEP)
 
+LOCAL cURL,cXML
 
 /*
 // https://api.brasilaberto.com/v1/zipcode/01001000
@@ -817,18 +817,12 @@ FUNCTION CEPBrasilAberto(cCEP)
 }
 */
 
-TRY
-   cURL := "https://api.brasilaberto.com/v1/zipcode/"+cCEP
-   oPg  := CreateObject("Msxml2.XMLHTTP.6.0")
-   oPg:Open("GET",cUrl,.F.)
-   oPg:Send()
-   cXMl := oPg:ResponseBody
+cURL := "https://api.brasilaberto.com/v1/zipcode/"+cCEP
+cXMl := RequisicaoHTTP(cURL,lUSAMSXML)
 
-
-catch oEr
-   // mdt("Erro de conexão na API send")
-   return .f.
-end
+IF Empty(cXMl)
+   RETURN .F.
+ENDIF
 
 
 cXMl := XmlTransform(cXMl)
@@ -862,8 +856,6 @@ RETURN .T.
 // +
 // +
 // +
-FUNCTION CEPOpenCep(cCEP)
-
 
 /*
 // https://opencep.com/v1/15050305
@@ -878,34 +870,27 @@ FUNCTION CEPOpenCep(cCEP)
   "ibge": "3549805"
 }
 */
-TRY
-   cURL := "https://opencep.com/v1/"+cCEP
-   oPg  := CreateObject("Msxml2.XMLHTTP.6.0")
-   oPg:Open("GET",cUrl,.F.)
-   oPg:Send()
-   cXMl := oPg:ResponseBody
+FUNCTION CEPOpenCep(cCEP)
 
+LOCAL cURL,cXML
 
+cURL := "https://opencep.com/v1/"+cCEP
 
-catch oEr
-   // mdt("Erro de conexão na API send")
-   RETURN .F.
-end
+// Usa a nova função centralizada passando a URL e a escolha global
+cXML := RequisicaoHTTP(cURL,lUSAMSXML)
 
-cXMl := XmlTransform(cXMl)
-
-IF At ('error',cXML) > 0
+IF Empty(cXML) .OR. At ('error',cXML) > 0
    RETURN .F.
 ENDIF
 
-// altd()
-// aqui e necesssario espaco depois dos dois ponto `: `
-CUF          := pegnodojason(cXMl,'"uf": ')
-cCIDADE      := pegnodojason(cXMl,'"localidade": ')
-cBairro      := pegnodojason(cXMl,'bairro": ')
-cENDERECO    := pegnodojason(cXMl,'"logradouro": ')
-cIBGE        := pegnodojason(cXMl,'"ibge": ')
-cComplemento := pegnodojason(cXMl,'"complemento": ')
+cXML := XmlTransform(cXML)
+
+cUF          := pegnodojason(cXML,'"uf": ')
+cCIDADE      := pegnodojason(cXML,'"localidade": ')
+cBairro      := pegnodojason(cXML,'bairro": ')
+cENDERECO    := pegnodojason(cXML,'"logradouro": ')
+cIBGE        := pegnodojason(cXML,'"ibge": ')
+cComplemento := pegnodojason(cXML,'"complemento": ')
 
 
 RETURN .T.
@@ -926,6 +911,7 @@ RETURN .T.
 // +
 FUNCTION CEPBrasilApi(cCEP)
 
+LOCAL cURL,cXML
 
 /*
 // https://brasilapi.com.br/api/cep/v2/01001000
@@ -946,18 +932,12 @@ FUNCTION CEPBrasilApi(cCEP)
 }
 */
 
-try
-   cURL := "https://brasilapi.com.br/api/cep/v2/"+cCEP
-   oPg  := CreateObject("Msxml2.XMLHTTP.6.0")
-   oPg:Open("GET",cUrl,.F.)
-   oPg:Send()
-   cXMl := oPg:ResponseBody
+cURL := "https://brasilapi.com.br/api/cep/v2/"+cCEP
+cXMl := RequisicaoHTTP(cURL,lUSAMSXML)
 
-
-catch oEr
-   //mdt("Erro de conexão na API send")
-   return .f.
-end
+IF Empty(cXMl)
+   RETURN .F.
+ENDIF
 
 cXMl := XmlTransform(cXMl)
 
@@ -993,6 +973,7 @@ RETURN .T.
 // +
 // +
 FUNCTION OpenCepjason()
+
 
 
 /*
@@ -1058,22 +1039,57 @@ NEXT kk
 RETURN .T.
 
 
-/*
-FUNCTION GetDadosJson( cJson )
-   LOCAL hData := {=>}
-   hb_jsonDecode( cJson, @hData )
-   
-   // Acesso direto e seguro
-   cCIDADE   := hb_HGetDef( hData, "city", "" )
-   cUF       := hb_HGetDef( hData, "state", "" )
-   cENDERECO := hb_HGetDef( hData, "street", "" )
-RETURN hData
-*/
 
+*+--------------------------------------------------------------------
+*+
+*+
+*+
+*+    Function RequisicaoHTTP()
+*+
+*+
+*+
+*+--------------------------------------------------------------------
+*+
+*+
+*+
+FUNCTION RequisicaoHTTP(cURL,lUsaMSXML)
 
+LOCAL cRetorno := ""
+LOCAL oHttp,oPg
 
-// + EOF: cepwebvia.prg
-// +
+IF lUsaMSXML
+   TRY
+      oPg := CreateObject("Msxml2.XMLHTTP.6.0")
+      oPg:Open("GET",cURL,.F.)
+      oPg:Send()
+
+      // Aguarda a resposta do servidor/buffer estabilizar
+      hb_idleSleep(0.5)
+
+      cRetorno := oPg:ResponseBody
+   CATCH
+      cRetorno := ""
+   END
+ELSE
+   TRY
+      oHttp := TIpClientHttp():new(cURL)
+      IF oHttp:open()
+
+         // Aguarda a resposta do servidor/buffer estabilizar
+         hb_idleSleep(0.5)
+
+         cRetorno := oHttp:readAll()
+         oHttp:close()
+      ELSE
+         cRetorno := ""
+      ENDIF
+   CATCH
+      cRetorno := ""
+   END
+ENDIF
+
+RETURN cRetorno
+
 
 *+ EOF: cepwebvia.prg
 *+

@@ -4,6 +4,7 @@
 -lng=pt_BR
 -vcshead=vcshead.ch
 -tshead=tshead.ch
+-inc
 
 cepwebvia.prg -b
 

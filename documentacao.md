@@ -1,14 +1,14 @@
 # 📘 Documentacao Tecnica do Projeto
-> Gerado em: 13/10/2026 18:43:09
+> Gerado em: 23/10/2026 08:30:14
 
 ## 🏗️ Estrutura de Modulos (PRGs)
 
-### 📄 Arquivo: `c:\develop\harbour\ceps\cepruaimp.prg`
+### 📄 Arquivo: `cepruaimp`
 - Function Main()
 - Function tratacidade()
 - Function vertxt()
 
-### 📄 Arquivo: `c:\develop\harbour\ceps\cepwebvia.prg`
+### 📄 Arquivo: `cepwebvia`
 - Function Main()
 - Function FormataCEP()
 - Function GRAVARUANAO()
@@ -25,8 +25,9 @@
 - Function CEPOpenCep()
 - Function CEPBrasilApi()
 - Function OpenCepjason()
+- Function RequisicaoHTTP()
 
-### 📄 Arquivo: `c:\develop\harbour\ceps\convcep.prg`
+### 📄 Arquivo: `convcep`
 - Function Main()
 - Function JasonCountry()
 - Function pegnodojason()
