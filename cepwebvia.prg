@@ -106,9 +106,15 @@ lBrasilAPI    := MSGYESNO("Usar BrasilAPI")
 lGERACEPTXT := MSGYESNO("Gerar ceps.csv")
 lGERACEPRUA := MSGYESNO("Gerar cepruaimp.csv ")
 
-// No início da sua FUNCTION Main()
-lUSAMSXML := MSGYESNO("Usar motor MSXML2 (Sim) ou TIpClient (Nao)?")
 
+lUSAMSXML := .T.
+#ifdef __LINUX__
+   // Força o uso do TIpClientHttp no Linux, pois MSXML não existe lá
+   lUSAMSXML := .F.
+#else
+   // Permite a escolha no Windows
+   lUSAMSXML := MSGYESNO("Usar motor MSXML2 (Sim) ou TIpClient (Nao)?")
+#endif
 
 IF lGERACEPTXT
    nFILECEPS := FCreate("ceps.csv")
