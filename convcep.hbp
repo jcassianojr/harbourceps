@@ -3,6 +3,7 @@
 -vcshead=vcshead.ch
 -tshead=tshead.ch
 -m -n -w0 -es2 -ge1
+-inc
 
 hbct.hbc
 hbwin.hbc
